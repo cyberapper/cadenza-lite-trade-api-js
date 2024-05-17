@@ -1,7 +1,5 @@
 # algo724-api-client
 
-This library was generated with [Nx](https://nx.dev).
-
 ## Building
 
 ```
