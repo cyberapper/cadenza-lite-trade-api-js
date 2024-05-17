@@ -1,19 +1,16 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: Algo724 Cadenza Lite API
   description: |-
     OpenAPI Specification for Algo724 Cadenza Lite API
   version: 1.0.0
 servers:
-  - url: "http://localhost:8088"
-    description: "Local server"
-  - url: "https://cadenza-lite-dev-kxqssmzmsa-de.a.run.app"
-    description: "DEV server"
   - url: "https://cadenza-lite.algo724.com"
     description: "Production server"
   - url: "https://cadenza-lite.uat.algo724.com"
     description: "UAT server"
-
+  - url: "https://cadenza-lite-dev-kxqssmzmsa-de.a.run.app"
+    description: "DEV server"
 tags:
   - name: Account
     description: "Account management"
@@ -24,31 +21,32 @@ tags:
   - name: Portfolio
     description: "Portfolio"
 
+security:
+  - BearerAuth: []
+
 paths:
   /api/v2/health:
     get:
+      operationId: "healthCheck"
       summary: "Health check"
       description: "Health check"
       tags:
         - Market
-      security:
-        - BearerAuth: []
       responses:
         "200":
-          description: Successful Response
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "ok"
+          $ref: "#/components/responses/okTextResponse"
+        "401":
+          $ref: "#/components/responses/AuthenticationErrorResponse"
+        "403":
+          $ref: "#/components/responses/AuthorizationErrorResponse"
+
   /api/v2/client/getInfo:
     get:
+      operationId: "getClientInfo"
       summary: "Get user information"
       description: "Check available exchange types in user information"
       tags:
         - Account
-      security:
-        - BearerAuth: []
       responses:
         "200":
           description: Successful Response
@@ -64,25 +62,17 @@ paths:
                     description: "Available exchange types"
                     example: ["BINANCE", "B2C2", "WINTERMUTE"]
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
+
   /api/v2/exchange/addExchangeAccount:
     post:
+      operationId: "addExchangeAccount"
       summary: "Add exchange account"
       description: "Add exchange account"
       tags:
         - Account
-      security:
-        - BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -90,31 +80,18 @@ paths:
               $ref: "#/components/schemas/addExchangeRequest"
       responses:
         "200":
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/okResponse"
+          $ref: "#/components/responses/okResponse"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/exchange/listExchangeAccounts:
     get:
+      operationId: "listExchangeAccounts"
       summary: "List exchange accounts"
       description: "List exchange accounts"
       tags:
         - Account
-      security:
-        - BearerAuth: []
       responses:
         "200":
           description: Successful Response
@@ -125,25 +102,16 @@ paths:
                 items:
                   $ref: "#/components/schemas/exchangeAccount"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/exchange/updateExchangeAccount:
     post:
+      operationId: "updateExchangeAccount"
       summary: "Update exchange account"
       description: "Update exchange account, now only support Binance account API key and secret"
       tags:
         - Account
-      security:
-        - BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -151,31 +119,18 @@ paths:
               $ref: "#/components/schemas/updateExchangeRequest"
       responses:
         "200":
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/okResponse"
+          $ref: "#/components/responses/okResponse"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/exchange/removeExchangeAccount:
     post:
+      operationId: "removeExchangeAccount"
       summary: "Remove exchange account"
       description: "Remove exchange account, now only support Binance account API key and secret"
       tags:
         - Account
-      security:
-        - BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -190,40 +145,21 @@ paths:
                 - exchangeAccountId
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/okResponse"
-          description: Successful Response
+          $ref: "#/components/responses/okResponse"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/market/listSymbolInfo:
     get:
+      operationId: "listSymbolInfo"
       summary: "List available exchange symbols"
       description: "List available exchange symbols"
       tags:
         - Market
-      security:
-        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/exchangeType"
-        - in: query
-          name: symbol
-          schema:
-            type: string
-            example: "BTC/USDT"
-          required: false
-          description: "Symbol"
+        - $ref: "#/components/parameters/symbol"
         - in: query
           name: detail
           schema:
@@ -233,129 +169,24 @@ paths:
           description: "Whether to return detailed information"
       responses:
         "200":
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    baseSymbol:
-                      type: string
-                      description: Base currency
-                      example: BTC
-                    description:
-                      type: string
-                      description: Symbol description
-                    exchangeType:
-                      $ref: "#/components/schemas/exchangeType"
-                    maxQuantity:
-                      type: number
-                      description: Max quantity
-                    marginRate:
-                      type: number
-                      description: Margin rate
-                    minQuantity:
-                      type: number
-                      description: Min quantity
-                    minTick:
-                      type: number
-                      description: Min tick
-                    orderTypes:
-                      type: array
-                      description: Supported order types
-                      items:
-                        type: string
-                        enum:
-                          - MARKET
-                          - LIMIT
-                          - STOP_LOSS
-                          - STOP_LOSS_LIMIT
-                          - TAKE_PROFIT
-                          - TAKE_PROFIT_LIMIT
-                          - LIMIT_MAKER
-                          - QUOTED
-                    pipSize:
-                      type: number
-                      description: Pip size
-                    pipValue:
-                      type: number
-                      description: Pip value
-                    pricePrecision:
-                      type: integer
-                      description: Price precision
-                    quantityPrecision:
-                      type: integer
-                      description: Quantity precision
-                    quantityStep:
-                      type: number
-                      description: Quantity step
-                    quoteSymbol:
-                      type: string
-                      description: Quoted currency
-                      example: USDT
-                    securityType:
-                      type: string
-                      description: Security type
-                      enum:
-                        - CASH
-                        - STOCK
-                        - CRYPTO
-                        - DERIVATIVE
-                        - OPTION
-                        - FUTURE
-                        - FOREX
-                        - COMMODITY
-                    symbol:
-                      type: string
-                      description: Symbol name
-                      example: BTC/USDT
-                    timeInForce:
-                      type: array
-                      description: Supported time in force
-                      items:
-                        type: string
-                        enum:
-                          - DAY
-                          - GTC
-                          - GTX
-                          - GTD
-                          - OPG
-                          - CLS
-                          - IOC
-                          - FOK
-                          - GFA
-                          - GFS
-                          - GTM
-                          - MOO
-                          - MOC
-                          - EXT
-                  required:
-                    - exchangeType
-                    - symbol
+          $ref: "#/components/responses/ListSymbolInfoResponse"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/market/ticker:
     get:
+      operationId: "ticker"
       summary: "Symbol price"
       description: "Symbol price"
       tags:
         - Market
-      security:
-        - BearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/exchangeType"
+        - in: query
+          name: exchangeType
+          schema:
+            $ref: "#/components/schemas/exchangeType"
+          description: "Exchange type"
         - in: query
           name: symbol
           schema:
@@ -373,37 +204,23 @@ paths:
                 items:
                   $ref: "#/components/schemas/ticker"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/market/orderbook:
     get:
+      operationId: "orderBook"
       summary: "Order book"
       description: "Get order book"
       tags:
         - Market
-      security:
-        - BearerAuth: []
       parameters:
         - in: query
           name: exchangeType
-          schema:
-            type: string
-            enum:
-              - BINANCE
-              - WINTERMUTE
-          #              - BLOCKFILLS
-
-          required: true
           description: "Exchange type"
+          schema:
+            $ref: "#/components/schemas/exchangeType"
+          required: true
         - in: query
           name: symbol
           schema:
@@ -411,13 +228,7 @@ paths:
             example: "BTC/USDT"
           required: true
           description: "Symbol"
-        - in: query
-          name: limit
-          schema:
-            type: integer
-            example: 100
-          required: false
-          description: "Limit the number of returned results. Default: 100; max: 1000."
+        - $ref: "#/components/parameters/limit"
       responses:
         "200":
           description: Successful Response
@@ -428,32 +239,21 @@ paths:
                 items:
                   $ref: "#/components/schemas/orderbook"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/market/kline:
     get:
+      operationId: "kline"
       summary: "Historical kline data"
       description: "Get historical kline data"
       tags:
         - Market
-      security:
-        - BearerAuth: []
       parameters:
         - in: query
           name: exchangeType
           schema:
-            type: string
-            enum:
-              - BINANCE
+            $ref: "#/components/schemas/exchangeType"
           required: true
           description: "Exchange type"
         - in: query
@@ -463,28 +263,15 @@ paths:
             example: BTC/USDT
           required: true
           description: "Symbol"
-        - $ref: "#/components/parameters/interval"
         - in: query
-          name: startTime
+          name: interval
           schema:
-            type: integer
-            example: 1622505600000
-          required: false
-          description: "Start time (in unix milliseconds)"
-        - in: query
-          name: endTime
-          schema:
-            type: integer
-            example: 1622505600000
-          required: false
-          description: "End time (in unix milliseconds)"
-        - in: query
-          name: limit
-          schema:
-            type: integer
-            example: 100
-          required: false
-          description: "Limit the number of returned results. Default: 100; max: 1000."
+            $ref: "#/components/schemas/interval"
+          required: true
+          description: "Kline interval"
+        - $ref: "#/components/parameters/startTime"
+        - $ref: "#/components/parameters/endTime"
+        - $ref: "#/components/parameters/limit"
       responses:
         "200":
           description: Successful Response
@@ -492,47 +279,19 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  type: object
-                  properties:
-                    c:
-                      type: number
-                      description: Close price
-                    h:
-                      type: number
-                      description: High price
-                    l:
-                      type: number
-                      description: Low price
-                    o:
-                      type: number
-                      description: Open price
-                    t:
-                      type: integer
-                      description: "Start time (in unix milliseconds)"
-                    v:
-                      type: number
-                      description: Volume
+                allOf:
+                  - $ref: "#/components/schemas/ohlcv"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/exchange/setExchangePriority:
     post:
+      operationId: "setExchangePriority"
       summary: "Set the priority of exchanges"
       description: "Set the priority of exchanges"
       tags:
         - Trade
-      security:
-        - BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -549,40 +308,20 @@ paths:
                   example: ["my_exchange_1", "my_exchange_2", "my_exchange_3"]
       responses:
         "200":
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/okResponse"
+          $ref: "#/components/responses/okResponse"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/trading/placeOrder:
     post:
+      operationId: "placeOrder"
       summary: "Place order"
       description: "Place order"
       tags:
         - Trade
-      security:
-        - BearerAuth: []
       parameters:
-        - in: header
-          name: Idempotency-Key
-          description: |-
-            Idempotency key is used to ensure that the same request is not processed more than once.
-            If the same request is received again, the server will return the same response as the first time.
-          schema:
-            type: string
-            example: "my_idempotency_key"
+        - $ref: "#/components/parameters/idempotencyKeyHeader"
       requestBody:
         content:
           application/json:
@@ -598,37 +337,22 @@ paths:
                 items:
                   $ref: "#/components/schemas/order"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
 
   /api/v2/trading/cancelOrder:
     post:
+      operationId: "cancelOrder"
       summary: "Cancel order"
       description: "Cancel order. If the order is already filled, it will return an error."
       tags:
         - Trade
-      security:
-        - BearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                orderId:
-                  type: string
-                  description: "Order ID"
-              required:
-                - orderId
+              $ref: "#/components/schemas/cancelOrderRequest"
       responses:
         "200":
           description: Successful Response
@@ -637,89 +361,25 @@ paths:
               schema:
                 $ref: "#/components/schemas/order"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/trading/listOrders:
     get:
+      operationId: "listOrders"
       summary: "List orders"
       description: "List orders"
       tags:
         - Trade
-      security:
-        - BearerAuth: []
       parameters:
-        - in: query
-          name: orderId
-          schema:
-            type: string
-          description: "Order ID"
-          required: false
-        - in: query
-          name: status
-          schema:
-            type: string
-            enum:
-              - SUBMITTED
-              - OPEN
-              - PARTIALLY_FILLED
-              - FILLED
-              - CANCELED
-              - PENDING_CANCEL
-              - REJECTED
-              - EXPIRED
-              - ERROR
-              - REVOKED
-          description: "Order status"
-          required: false
-        - in: query
-          name: exchangeAccountId
-          schema:
-            type: string
-          description: "Exchange account ID"
-          required: false
-        - in: query
-          name: symbol
-          schema:
-            type: string
-          description: "Symbol"
-          required: false
-        - in: query
-          name: startTime
-          schema:
-            type: integer
-            example: 1622505600000
-          description: "Start time (in unix milliseconds)"
-          required: false
-        - in: query
-          name: endTime
-          schema:
-            type: integer
-            example: 1622505600000
-          description: "End time (in unix milliseconds)"
-          required: false
-        - in: query
-          name: limit
-          schema:
-            type: integer
-            example: 100
-          description: "Limit the number of returned results. Default: 100; max: 1000."
-          required: false
-        - in: query
-          name: offset
-          schema:
-            type: integer
-            example: 0
-          description: "Offset of the returned results. Default: 0"
-          required: false
+        - $ref: "#/components/parameters/orderId"
+        - $ref: "#/components/parameters/orderStatus"
+        - $ref: "#/components/parameters/exchangeAccountId"
+        - $ref: "#/components/parameters/symbol"
+        - $ref: "#/components/parameters/startTime"
+        - $ref: "#/components/parameters/endTime"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
       responses:
         "200":
           description: Successful Response
@@ -742,25 +402,16 @@ paths:
                     type: integer
                     description: "Total number of orders"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/trading/fetchQuotes:
     post:
+      operationId: "fetchQuotes"
       summary: "Quote request"
       description: "Quote request"
       tags:
         - Trade
-      security:
-        - BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -799,25 +450,16 @@ paths:
                 items:
                   $ref: "#/components/schemas/quoteWithOrderCandidates"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/portfolio/listCredit:
     get:
+      operationId: "listCredit"
       summary: "List credit"
       description: "List credit"
       tags:
         - Portfolio
-      security:
-        - BearerAuth: []
       parameters:
         - in: query
           name: exchangeAccountId
@@ -851,25 +493,16 @@ paths:
                       example: 5677517.76
                 description: "List of credit"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/portfolio/listBalances:
     get:
+      operationId: "listBalances"
       summary: "List balances"
       description: "List balances"
       tags:
         - Portfolio
-      security:
-        - BearerAuth: []
       parameters:
         - in: query
           name: exchangeAccountId
@@ -887,25 +520,16 @@ paths:
                 items:
                   $ref: "#/components/schemas/exchangeBalance"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
   /api/v2/portfolio/listPositions:
     get:
+      operationId: "listPositions"
       summary: "List positions"
       description: "List positions"
       tags:
         - Portfolio
-      security:
-        - BearerAuth: []
       parameters:
         - in: query
           name: exchangeAccountId
@@ -923,73 +547,219 @@ paths:
                 items:
                   $ref: "#/components/schemas/exchangePosition"
         "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
         "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/errorResponse"
+          $ref: "#/components/responses/errorResponse"
 
 components:
   parameters:
+    # MARK: Header
+    idempotencyKeyHeader:
+      in: header
+      name: Idempotency-Key
+      description: |-
+        Idempotency key is used to ensure that the same request is not processed more than once.
+        If the same request is received again, the server will return the same response as the first time.
+      schema:
+        type: string
+        example: "my_idempotency_key"
+
+    # MARK: Query Parameter, Optional
     arraySymbols:
       in: query
       name: symbol
       description: "List of symbols"
       schema:
-        type: string
-        example: "BTC/USDT,ETH/USDT"
+        type: array
+        items:
+          type: string
+        example: ["BTC/USDT", "ETH/USDT"]
+
     exchangeType:
       in: query
       name: exchangeType
       description: "Exchange type"
       schema:
-        type: string
-        enum:
-          - BINANCE
-          - B2C2
-          - WINTERMUTE
+        $ref: "#/components/schemas/exchangeType"
+
     interval:
       in: query
       name: interval
       description: "Kline interval"
       schema:
+        $ref: "#/components/schemas/interval"
+
+    orderId:
+      in: query
+      name: orderId
+      schema:
         type: string
-        enum:
-          - 1s
-          - 1m
-          - 5m
-          - 15m
-          - 30m
-          - 1h
-          - 2h
-          - 1d
-          - 1w
-      required: true
-  schemas:
+      description: "Order ID"
+    orderStatus:
+      in: query
+      name: orderStatus
+      description: "Order status"
+      schema:
+        $ref: "#/components/schemas/orderStatus"
+    exchangeAccountId:
+      in: query
+      name: exchangeAccountId
+      schema:
+        type: string
+      description: "Exchange account ID"
+    symbol:
+      in: query
+      name: symbol
+      schema:
+        type: string
+      description: "Symbol"
+    startTime:
+      in: query
+      name: startTime
+      schema:
+        type: integer
+        example: 1622505600000
+      description: "Start time (in unix milliseconds)"
+    endTime:
+      in: query
+      name: endTime
+      schema:
+        $ref: "#/components/schemas/millisecond"
+      description: "End time (in unix milliseconds)"
+    limit:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        example: 100
+      description: "Limit the number of returned results."
+    offset:
+      in: query
+      name: offset
+      schema:
+        type: integer
+        example: 0
+      description: "Offset of the returned results. Default: 0"
+
+  responses:
+    # MARK: Response
+    okTextResponse:
+      description: "Simple text Successful response"
+      content:
+        text/plain:
+          schema:
+            type: string
+            default: ok
     okResponse:
-      type: object
-      properties:
-        data:
-          default: ok
-          type: string
+      description: "Simple JSON Successful response"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                default: ok
+                type: string
     errorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: "Error code"
-        error:
-          type: string
-          description: "Error message"
-      required:
-        - code
-        - error
+      description: "Error response"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                description: "Error code"
+              error:
+                type: string
+                description: "Error message"
+            required:
+              - code
+              - error
+    AuthenticationErrorResponse:
+      description: "Authentication error response"
+      content:
+        text/html:
+          schema:
+            type: string
+    AuthorizationErrorResponse:
+      description: "Authorization error response"
+      content:
+        text/html:
+          schema:
+            type: string
+
+    ListSymbolInfoResponse:
+      description: Successful Response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                baseSymbol:
+                  type: string
+                  description: Base currency
+                  example: BTC
+                description:
+                  type: string
+                  description: Symbol description
+                exchangeType:
+                  $ref: "#/components/schemas/exchangeType"
+                marginRate:
+                  type: number
+                  description: Margin rate
+                maxQuantity:
+                  type: number
+                  description: Max quantity
+                minQuantity:
+                  type: number
+                  description: Min quantity
+                quantityStep:
+                  type: number
+                  description: Quantity step, round lot
+                minTick:
+                  type: number
+                  description: Min tick, Price Tick
+                orderTypes:
+                  description: Supported order types
+                  type: array
+                  allOf:
+                    - $ref: "#/components/schemas/orderType"
+                pipSize:
+                  type: number
+                  description: Pip size
+                pipValue:
+                  type: number
+                  description: Pip value
+                pricePrecision:
+                  type: integer
+                  description: Price precision
+                quantityPrecision:
+                  type: integer
+                  description: Quantity precision
+                quoteSymbol:
+                  type: string
+                  description: Quoted currency
+                  example: USDT
+                securityType:
+                  $ref: "#/components/schemas/securityType"
+                symbol:
+                  type: string
+                  description: Symbol name
+                  example: BTC/USDT
+                timeInForce:
+                  type: array
+                  description: Supported time in force
+                  allOf:
+                    - $ref: "#/components/schemas/timeInForce"
+              required:
+                - exchangeType
+                - symbol
+
+  schemas:
+    # MARK: Request
     addExchangeRequest:
       type: object
       properties:
@@ -1068,9 +838,15 @@ components:
         price:
           type: number
           description: Price
+        priceSlippageTolerance:
+          type: number
+          description: "Price slippage tolerance, range: [0, 0.1] with 2 decimal places"
         quantity:
           type: number
-          description: Quantity
+          description: Quantity. One of quantity or quoteQuantity must be provided. If both is provided, only quantity will be used.
+        quoteQuantity:
+          type: number
+          description: Quote Quantity
         symbol:
           type: string
           description: Symbol
@@ -1080,10 +856,7 @@ components:
             - $ref: "#/components/schemas/timeInForce"
           description: Time in force
         routePolicy:
-          type: string
-          enum:
-            - "PRIORITY"
-          description: "Route policy"
+          $ref: "#/components/schemas/routePolicy"
         priority:
           type: array
           items:
@@ -1101,8 +874,6 @@ components:
         - exchangeAccountId
         - orderSide
         - orderType
-        - quantity
-        - timeInForce
     exchangeType:
       type: string
       enum:
@@ -1110,45 +881,38 @@ components:
         - B2C2
         - WINTERMUTE
         - BLOCKFILLS
+        - STONEX
       description: "Exchange type"
-    exchangeAccount:
+
+    cancelOrderRequest:
+      type: object
       properties:
-        accountType:
+        orderId:
           type: string
-          enum:
-            - SPOT
-            - MARGIN
-          description: "Type of account (SPOT, MARGIN)"
-        exchangeType:
-          type: string
-          description: "Exchange type"
-        exchangeAccountId:
-          type: string
-          format: uuid
-          description: "Exchange account ID"
-        name:
-          type: string
-          description: "Name of the exchange account"
-        environment:
-          type: string
-          description: "Environment of the exchange account"
-        status:
-          type: string
-          enum:
-            - ACTIVE
-            - API_ERROR
-            - INVALID_API
-            - API_ISSUE
-            - NOT_TRUSTED
-            - DELETED
-          description: "Status of the exchange account"
+          description: "Order ID"
       required:
-        - id
-        - name
-        - exchange
-        - environment
-        - status
-        - accountType
+        - orderId
+
+    # MARK: Model
+    # General
+    millisecond:
+      type: integer
+      example: 1632933600000
+      description: "Unix timestamp in milliseconds"
+
+    # MARK: Market Data Model
+    interval:
+      type: string
+      enum:
+        - 1s
+        - 1m
+        - 5m
+        - 15m
+        - 30m
+        - 1h
+        - 2h
+        - 1d
+        - 1w
     ticker:
       properties:
         askPrice:
@@ -1202,6 +966,28 @@ components:
           type: string
         symbol:
           type: string
+    ohlcv:
+      type: object
+      properties:
+        c:
+          type: number
+          description: Close price
+        h:
+          type: number
+          description: High price
+        l:
+          type: number
+          description: Low price
+        o:
+          type: number
+          description: Open price
+        t:
+          type: integer
+          description: "Start time (in unix milliseconds)"
+        v:
+          type: number
+          description: Volume
+    # MARK: Trading Model
     orderSide:
       type: string
       enum:
@@ -1217,7 +1003,6 @@ components:
         - STOP_LOSS_LIMIT
         - TAKE_PROFIT
         - TAKE_PROFIT_LIMIT
-        - LIMIT_MAKER
         - QUOTED
       description: "Order type"
     orderStatus:
@@ -1231,7 +1016,6 @@ components:
         - PENDING_CANCEL
         - REJECTED
         - EXPIRED
-        - ERROR
         - REVOKED
       description: "Order status"
     timeInForce:
@@ -1252,6 +1036,24 @@ components:
         - MOC
         - EXT
       description: "Time in force"
+    securityType:
+      type: string
+      description: Security type
+      enum:
+        - CASH
+        - STOCK
+        - CRYPTO
+        - DERIVATIVE
+        - OPTION
+        - FUTURE
+        - FOREX
+        - COMMODITY
+    routePolicy:
+      type: string
+      enum:
+        - PRIORITY
+        - INDICATED_ORDER
+      description: "Route policy"
     order:
       type: object
       properties:
@@ -1288,6 +1090,9 @@ components:
         quantity:
           type: number
           description: Quantity
+        quoteQuantity:
+          type: number
+          description: Quote Quantity
         status:
           $ref: "#/components/schemas/orderStatus"
         symbol:
@@ -1453,6 +1258,44 @@ components:
               - status
               - symbol
             description: "List of positions"
+    exchangeAccount:
+      properties:
+        accountType:
+          type: string
+          enum:
+            - SPOT
+            - MARGIN
+          description: "Type of account (SPOT, MARGIN)"
+        exchangeType:
+          type: string
+          description: "Exchange type"
+        exchangeAccountId:
+          type: string
+          format: uuid
+          description: "Exchange account ID"
+        name:
+          type: string
+          description: "Name of the exchange account"
+        environment:
+          type: string
+          description: "Environment of the exchange account"
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - API_ERROR
+            - INVALID_API
+            - API_ISSUE
+            - NOT_TRUSTED
+            - DELETED
+          description: "Status of the exchange account"
+      required:
+        - id
+        - name
+        - exchange
+        - environment
+        - status
+        - accountType
 
   securitySchemes:
     BearerAuth:
