@@ -1,5 +1,26 @@
 import { readFileSync } from "fs";
-import { JWT } from "google-auth-library";
+import { GoogleAuth, JWT } from "google-auth-library";
+
+export async function getServiceAccountJwtFromADC() {
+  // Create a GoogleAuth client which will automatically pick up the ADC
+  const googleAuth = new GoogleAuth({
+    // Scopes can be specified either as an array or as a single, space-delimited string.
+    scopes: [], // Specify scopes if required, leave empty for ID tokens
+  });
+
+  // Acquire an ID token client for the target audience
+  const client = await googleAuth.getIdTokenClient(
+    "32555940559.apps.googleusercontent.com"
+  );
+
+  // Request the ID token for the target audience
+  const res = await client.request({ url: "https://service-to-call" });
+
+  // The ID token should be in the headers of the response
+  const idToken = res.headers["authorization"].split(" ")[1];
+
+  return idToken;
+}
 
 export async function getServiceAccountJwt(path: string) {
   // Load the service account key from a file
