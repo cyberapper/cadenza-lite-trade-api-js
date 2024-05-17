@@ -6,10 +6,9 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Building
 
+Run `npm run generate` to generate the API client from the OpenAPI spec.
+
 Run `nx build algo724-api-client` to build the library.
-
-
-
 
 
 ## Running unit tests

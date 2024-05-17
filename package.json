@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "type": "commonjs",
   "dependencies": {
+    "@nrwl/js": "^19.0.4",
+    "@swc/cli": "^0.3.12",
     "cross-fetch": "^4.0.0",
+    "nx": "^19.0.4",
     "openapi-fetch": "^0.9.3",
     "pino": "^8.20.0"
   },
@@ -11,7 +14,9 @@
     "generate": "npx openapi-typescript ./algo724-api.yaml -o ./src/lib/algo724-api-client.ts"
   },
   "devDependencies": {
+    "nx": "19.0.4",
     "openapi-typescript": "^6.7.5",
     "openapi-typescript-helpers": "^0.0.7"
-  }
+  },
+  "nx": {}
 }
