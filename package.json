@@ -4,13 +4,15 @@
   "type": "commonjs",
   "dependencies": {
     "cross-fetch": "^4.0.0",
+    "google-auth-library": "^9.10.0",
     "openapi-fetch": "^0.9.3",
-    "pino": "^8.20.0"
+    "pino": "^9.1.0"
   },
   "scripts": {
-    "generate": "npx openapi-typescript ./algo724-api.yaml -o ./src/lib/algo724-api-client.ts"
+    "generate": "npx openapi-typescript ./lite_openapi.yaml -o ./src/lib/algo724-openapi.ts"
   },
   "devDependencies": {
+    "@types/node": "^20.12.12",
     "openapi-typescript": "^6.7.5",
     "openapi-typescript-helpers": "^0.0.7"
   }
