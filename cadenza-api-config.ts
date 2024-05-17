@@ -1,10 +1,9 @@
-// index.ts
 import { readFileSync } from "fs";
 import { JWT } from "google-auth-library";
 
 export async function getServiceAccountJwt(path: string) {
   // Load the service account key from a file
-  const serviceAccountKey = JSON.parse(readFileSync("cred.json", "utf8"));
+  const serviceAccountKey = JSON.parse(readFileSync(path, "utf8"));
 
   // Create a JWT client with the service account key
   const jwtClient = new JWT({
