@@ -11,7 +11,6 @@ servers:
     description: "UAT server"
   - url: "https://cadenza-lite-dev-kxqssmzmsa-de.a.run.app"
     description: "DEV server"
-
 tags:
   - name: Account
     description: "Account management"
