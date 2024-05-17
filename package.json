@@ -1,0 +1,17 @@
+{
+  "name": "@utx/algo724-api-client",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "dependencies": {
+    "cross-fetch": "^4.0.0",
+    "openapi-fetch": "^0.9.3",
+    "pino": "^8.20.0"
+  },
+  "scripts": {
+    "generate": "npx openapi-typescript ./algo724-api.yaml -o ./src/lib/algo724-api-client.ts"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^6.7.5",
+    "openapi-typescript-helpers": "^0.0.7"
+  }
+}
