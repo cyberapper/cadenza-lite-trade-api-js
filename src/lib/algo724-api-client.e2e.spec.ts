@@ -2,9 +2,10 @@ import { expect, test } from "bun:test";
 import { Algo724Client } from "./algo724-api-client";
 import pino from "pino";
 import EventEmitter from "events";
-import { getServiceAccountJwt } from "./algo724-api-config";
+import { getServiceAccountJwt } from "./cadenza-api-config";
 const logger = pino();
-const accessToken = await getServiceAccountJwt(
+
+var accessToken = await getServiceAccountJwt(
   "/Users/wilson/Documents/GitHub/cadenza-lite-sdk-js/cred.json"
 );
 const algo724Client = new Algo724Client(accessToken);
