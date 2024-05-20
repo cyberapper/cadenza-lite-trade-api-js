@@ -131,3 +131,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 cred.json
+
+
+# nx
+.nx

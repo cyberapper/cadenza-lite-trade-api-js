@@ -11,6 +11,7 @@ servers:
     description: "UAT server"
   - url: "https://cadenza-lite-dev-kxqssmzmsa-de.a.run.app"
     description: "DEV server"
+
 tags:
   - name: Account
     description: "Account management"
@@ -65,7 +66,7 @@ paths:
           $ref: "#/components/responses/errorResponse"
         "500":
           $ref: "#/components/responses/errorResponse"
-
+                
   /api/v2/exchange/addExchangeAccount:
     post:
       operationId: "addExchangeAccount"
@@ -220,7 +221,7 @@ paths:
           description: "Exchange type"
           schema:
             $ref: "#/components/schemas/exchangeType"
-          required: true
+          required: true  
         - in: query
           name: symbol
           schema:
@@ -279,8 +280,8 @@ paths:
             application/json:
               schema:
                 type: array
-                allOf:
-                  - $ref: "#/components/schemas/ohlcv"
+                allOf: 
+                  -  $ref: "#/components/schemas/ohlcv"
         "400":
           $ref: "#/components/responses/errorResponse"
         "500":
@@ -305,7 +306,7 @@ paths:
                   items:
                     type: string
                   description: Priority list of exchanges in descending order
-                  example: ["my_exchange_1", "my_exchange_2", "my_exchange_3"]
+                  example: [ "my_exchange_1", "my_exchange_2", "my_exchange_3" ]
       responses:
         "200":
           $ref: "#/components/responses/okResponse"
@@ -461,12 +462,12 @@ paths:
       tags:
         - Portfolio
       parameters:
-        - in: query
-          name: exchangeAccountId
-          schema:
-            type: string
-          description: "Exchange account ID"
-          required: false
+      - in: query
+        name: exchangeAccountId
+        schema:
+          type: string
+        description: "Exchange account ID"
+        required: false
       responses:
         "200":
           description: Successful Response
@@ -504,12 +505,12 @@ paths:
       tags:
         - Portfolio
       parameters:
-        - in: query
-          name: exchangeAccountId
-          schema:
-            type: string
-          description: "Exchange account ID"
-          required: false
+      - in: query
+        name: exchangeAccountId
+        schema:
+          type: string
+        description: "Exchange account ID"
+        required: false
       responses:
         "200":
           description: Successful Response
@@ -531,12 +532,12 @@ paths:
       tags:
         - Portfolio
       parameters:
-        - in: query
-          name: exchangeAccountId
-          schema:
-            type: string
-          description: "Exchange account ID"
-          required: false
+      - in: query
+        name: exchangeAccountId
+        schema:
+          type: string
+        description: "Exchange account ID"
+        required: false
       responses:
         "200":
           description: Successful Response
@@ -557,7 +558,7 @@ components:
     idempotencyKeyHeader:
       in: header
       name: Idempotency-Key
-      description: |-
+      description:  |-
         Idempotency key is used to ensure that the same request is not processed more than once.
         If the same request is received again, the server will return the same response as the first time.
       schema:
@@ -581,7 +582,7 @@ components:
       description: "Exchange type"
       schema:
         $ref: "#/components/schemas/exchangeType"
-
+      
     interval:
       in: query
       name: interval
@@ -599,7 +600,7 @@ components:
       in: query
       name: orderStatus
       description: "Order status"
-      schema:
+      schema: 
         $ref: "#/components/schemas/orderStatus"
     exchangeAccountId:
       in: query
@@ -640,6 +641,9 @@ components:
         type: integer
         example: 0
       description: "Offset of the returned results. Default: 0"
+
+
+
 
   responses:
     # MARK: Response
@@ -688,7 +692,7 @@ components:
         text/html:
           schema:
             type: string
-
+    
     ListSymbolInfoResponse:
       description: Successful Response
       content:
@@ -725,8 +729,8 @@ components:
                 orderTypes:
                   description: Supported order types
                   type: array
-                  allOf:
-                    - $ref: "#/components/schemas/orderType"
+                  allOf: 
+                    -  $ref: "#/components/schemas/orderType"
                 pipSize:
                   type: number
                   description: Pip size
@@ -752,13 +756,13 @@ components:
                 timeInForce:
                   type: array
                   description: Supported time in force
-                  allOf:
+                  allOf: 
                     - $ref: "#/components/schemas/timeInForce"
               required:
                 - exchangeType
                 - symbol
 
-  schemas:
+  schemas:    
     # MARK: Request
     addExchangeRequest:
       type: object
@@ -825,11 +829,11 @@ components:
           type: integer
         orderSide:
           allOf:
-            - $ref: "#/components/schemas/orderSide"
+          - $ref: "#/components/schemas/orderSide"
           description: Order side
         orderType:
           allOf:
-            - $ref: "#/components/schemas/orderType"
+          - $ref: "#/components/schemas/orderType"
           description: Order type
         positionId:
           type: string
@@ -862,12 +866,7 @@ components:
           items:
             type: string
           description: "Priority list of exchange account ID in descending order"
-          example:
-            [
-              "exchange_account_id_1",
-              "exchange_account_id_2",
-              "exchange_account_id_3",
-            ]
+          example: ["exchange_account_id_1", "exchange_account_id_2", "exchange_account_id_3"]
         quoteId:
           type: string
       required:
@@ -883,7 +882,7 @@ components:
         - BLOCKFILLS
         - STONEX
       description: "Exchange type"
-
+    
     cancelOrderRequest:
       type: object
       properties:
@@ -892,6 +891,7 @@ components:
           description: "Order ID"
       required:
         - orderId
+
 
     # MARK: Model
     # General
@@ -1127,10 +1127,10 @@ components:
     quoteWithOrderCandidates:
       type: object
       properties:
-        exchangeAccountId:
+        quoteRequestId:
           type: string
+          description: "Quote request ID"
           format: uuid
-          description: "Exchange account ID"
         exchangeType:
           $ref: "#/components/schemas/exchangeType"
         baseCurrency:
@@ -1141,7 +1141,7 @@ components:
           type: string
           description: Quote currency
           example: USDT
-        askPrice:
+        askPrice: 
           type: number
           description: Ask price
           example: 42859.99
@@ -1166,6 +1166,14 @@ components:
           items:
             type: object
             properties:
+              quoteRequestId:
+                type: string
+                description: "Quote request ID"
+                format: uuid
+              exchangeAccountId:
+                type: string
+                format: uuid
+                description: "Exchange account ID"
               orderSide:
                 $ref: "#/components/schemas/orderSide"
               orderType:
