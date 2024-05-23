@@ -406,11 +406,11 @@ paths:
           $ref: "#/components/responses/errorResponse"
         "500":
           $ref: "#/components/responses/errorResponse"
-  /api/v2/trading/fetchQuotes:
+  /api/v2/trading/getQuoteExecutionReport:
     post:
-      operationId: "fetchQuotes"
+      operationId: "getQuoteExecutionReport"
       summary: "Quote request"
-      description: "Quote request"
+      description: "Quote will give the best quote from all available exchange accounts"
       tags:
         - Trade
       requestBody:
@@ -419,27 +419,34 @@ paths:
             schema:
               type: object
               properties:
-                baseCurrency:
+                quoteRequestId:
                   type: string
-                  description: Base currency
-                quoteCurrency:
-                  type: string
-                  description: Quote currency
-                quantity:
-                  type: number
-                  description: Quantity of base currency for quote execution
-                exchangeAccountId:
-                  type: string
-                  format: uuid
-                  description: The identifier for the exchange account
-                orderSide:
-                  type: string
-                  description: Order side, BUY or SELL, required by WinterMute
+                  description: "Quote request ID"
               required:
-                - baseCurrency
-                - quoteCurrency
-                - quantity
-                - orderSide
+                - quoteRequestId
+      responses:
+        "200":
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/quoteExecutionReport"
+        "400":
+          $ref: "#/components/responses/errorResponse"
+        "500":
+          $ref: "#/components/responses/errorResponse"
+  /api/v2/trading/fetchQuotes:
+    post:
+      operationId: "fetchQuotes"
+      summary: "Quote request"
+      description: "Quote will give the best quote from all available exchange accounts"
+      tags:
+        - Trade
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/quoteRequest"
         required: true
       responses:
         "200":
@@ -820,10 +827,12 @@ components:
     placeOrderRequest:
       type: object
       properties:
+        quoteRequestId:
+          description: "Quote request ID"
+          $ref: "#/components/schemas/uuidString"
         exchangeAccountId:
-          type: string
-          format: uuid
           description: "Exchange account ID"
+          $ref: "#/components/schemas/uuidString"
         leverage:
           description: "Levarage"
           type: integer
@@ -869,10 +878,7 @@ components:
           example: ["exchange_account_id_1", "exchange_account_id_2", "exchange_account_id_3"]
         quoteId:
           type: string
-      required:
-        - exchangeAccountId
-        - orderSide
-        - orderType
+          description: Quote ID used by exchange for RFQ, e.g. WINTERMUTE need this field to execute QUOTED order
     exchangeType:
       type: string
       enum:
@@ -882,6 +888,10 @@ components:
         - BLOCKFILLS
         - STONEX
       description: "Exchange type"
+    uuidString:
+      type: string
+      format: uuid
+      description: "UUID string"
     
     cancelOrderRequest:
       type: object
@@ -1009,6 +1019,7 @@ components:
       type: string
       enum:
         - SUBMITTED
+        - ACCEPTED
         - OPEN
         - PARTIALLY_FILLED
         - FILLED
@@ -1040,6 +1051,7 @@ components:
       type: string
       description: Security type
       enum:
+        - SPOT
         - CASH
         - STOCK
         - CRYPTO
@@ -1052,8 +1064,8 @@ components:
       type: string
       enum:
         - PRIORITY
-        - INDICATED_ORDER
-      description: "Route policy"
+        - QUOTE
+      description: "Route policy. For PRIORITY, the order request will be routed to the exchange account with the highest priority. For QUOTE, the system will execute the execution plan based on the quote. Order request with route policy QUOTE will only accept two parameters, quoteRequestId and priceSlippageTolerance"
     order:
       type: object
       properties:
@@ -1109,6 +1121,14 @@ components:
           type: string
           description: "User ID"
           format: uuid
+        fee:
+          type: number
+          description: Fee
+          example: 0.0
+        feeCurrency:
+          type: string
+          description: Fee currency
+          example: USDT
       required:
         - id
         - userId
@@ -1124,15 +1144,38 @@ components:
         - status
         - updatedAt
         - createdAt
+    quoteRequest:
+      type: object
+      properties:
+        baseCurrency:
+          type: string
+          description: Base currency is the currency you want to buy or sell
+        quoteCurrency:
+          type: string
+          description: Quote currency is the currency you want to pay or receive, and the price of the base currency is quoted in the quote currency
+        orderSide:
+          type: string
+          description: Order side, BUY or SELL
+        quantity:
+          type: number
+          description: Amount of the base currency
+        quoteQuantity:
+          type: number
+          description: Amount of the quote currency
+        exchangeAccountId:
+          description: The identifier for the exchange account
+          $ref: "#/components/schemas/uuidString"
+      required:
+        - baseCurrency
+        - quoteCurrency
+        - orderSide
+        # - quantity or quoteQuantity
     quoteWithOrderCandidates:
       type: object
       properties:
         quoteRequestId:
-          type: string
           description: "Quote request ID"
-          format: uuid
-        exchangeType:
-          $ref: "#/components/schemas/exchangeType"
+          $ref: "#/components/schemas/uuidString"
         baseCurrency:
           type: string
           description: Base currency
@@ -1158,9 +1201,11 @@ components:
           description: Bid quantity
           example: 1.0
         timestamp:
-          type: integer
-          description: Timestamp
-          example: 1632933600000
+          description: "Create time of the quote"
+          $ref: "#/components/schemas/millisecond"
+        validUntil:
+          description: "Expiration time of the quote"
+          $ref: "#/components/schemas/millisecond"
         orderCandidates:
           type: array
           items:
@@ -1182,14 +1227,67 @@ components:
                 type: number
                 description: Quantity
                 example: 1.0
+              quoteQuantity:
+                type: number
+                description: Quote Quantity
+                example: 42859.99
               symbol:
                 type: string
                 description: Symbol
                 example: BTC/USDT
-        quoteId:
+              routePolicy:
+                $ref: "#/components/schemas/routePolicy"
+      required: 
+        - quoteRequestId
+        - baseCurrency
+        - quoteCurrency
+        - timestamp
+        - validUntil
+        # askQuantity and askPrice or bidQuantity and bidPrice
+    quoteExecutionReport:
+      type: object
+      properties:
+        quoteRequestId:
+          description: "Quote request ID"
+          $ref: "#/components/schemas/uuidString"
+        baseCurrency:
           type: string
-          description: Unique quote id provided by the exchange
-          example: "quote_id"
+          description: Base currency
+          example: BTC
+        quoteCurrency:
+          type: string
+          description: Quote currency
+          example: USDT
+        filled:
+          type: number
+          description: Filled quantity, the quantity of the base currency executed
+          example: 1.0
+        cost:
+          type: number
+          description: Cost, the total cost of the quote
+          example: 42859.99
+        status:
+          description: Status of the quote execution, should only have SUBMITTED, ACCEPTED, PARTIALLY_FILLED, FILLED, EXPIRED. the final status of the quote execution should be either FILLED or EXPIRED
+          $ref: "#/components/schemas/orderStatus"
+        createdAt:
+          description: "Create time of the quote"
+          $ref: "#/components/schemas/millisecond"
+        updatedAt:
+          description: "Last updated time of the quote execution"
+          $ref: "#/components/schemas/millisecond"
+        orders:
+          type: array
+          description: "List of orders to fulfill the quote, the order status should only have FILLED, REJECTED, or EXPIRED"
+          allOf:
+            - $ref: "#/components/schemas/order"
+      required: 
+        - quoteRequestId
+        - baseCurrency
+        - quoteCurrency
+        - timestamp
+        - validUntil
+        # ask and askPrice or bid and bidPrice
+    
     exchangeBalance:
       type: object
       properties:
