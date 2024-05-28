@@ -1247,7 +1247,7 @@ components:
     quoteExecutionReport:
       type: object
       properties:
-        quoteRequestId:
+        id:
           description: "Quote request ID"
           $ref: "#/components/schemas/uuidString"
         baseCurrency:
@@ -1275,18 +1275,44 @@ components:
         updatedAt:
           description: "Last updated time of the quote execution"
           $ref: "#/components/schemas/millisecond"
+        executedPrice:
+          type: number
+          description: "Executed price of the quote"
+          example: 1013.5483
+        fees:
+          type: object
+          description: "Fees associated with the quote execution"
+          additionalProperties:
+            type: number
+          example:
+            USDT: 0.012
+        orderSide:
+          type: string
+          description: "Side of the order, either BUY or SELL"
+          example: "SELL"
+        routePolicy:
+          type: string
+          description: "Route policy for the quote execution"
+          example: "QUOTE"
         orders:
           type: array
           description: "List of orders to fulfill the quote, the order status should only have FILLED, REJECTED, or EXPIRED"
           allOf:
             - $ref: "#/components/schemas/order"
       required: 
-        - quoteRequestId
+        - id
         - baseCurrency
         - quoteCurrency
-        - timestamp
-        - validUntil
-        # ask and askPrice or bid and bidPrice
+        - filled
+        - cost
+        - status
+        - createdAt
+        - updatedAt
+        - executedPrice
+        - fees
+        - orderSide
+        - routePolicy
+
     
     exchangeBalance:
       type: object
