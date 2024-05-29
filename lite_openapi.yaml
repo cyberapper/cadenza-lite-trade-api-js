@@ -407,30 +407,26 @@ paths:
         "500":
           $ref: "#/components/responses/errorResponse"
   /api/v2/trading/getQuoteExecutionReport:
-    post:
+    get:
       operationId: "getQuoteExecutionReport"
       summary: "Quote request"
       description: "Quote will give the best quote from all available exchange accounts"
       tags:
         - Trade
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                quoteRequestId:
-                  type: string
-                  description: "Quote request ID"
-              required:
-                - quoteRequestId
+      parameters:
+        - in: query
+          name: quoteRequestId
+          schema:
+            $ref: "#/components/schemas/uuidString"
+          description: "Quote request ID"
+          required: true
       responses:
         "200":
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/quoteExecutionReport"
+                $ref: "#/components/schemas/executionReport"
         "400":
           $ref: "#/components/responses/errorResponse"
         "500":
@@ -1244,11 +1240,11 @@ components:
         - timestamp
         - validUntil
         # askQuantity and askPrice or bidQuantity and bidPrice
-    quoteExecutionReport:
+    executionReport:
       type: object
       properties:
         id:
-          description: "Quote request ID"
+          description: "Execution Report ID"
           $ref: "#/components/schemas/uuidString"
         baseCurrency:
           type: string
