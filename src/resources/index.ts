@@ -7,9 +7,11 @@ export {
   ExchangeAccountUpdateResponse,
   ExchangeAccountListResponse,
   ExchangeAccountRemoveResponse,
+  ExchangeAccountSetExchangePriorityResponse,
   ExchangeAccountCreateParams,
   ExchangeAccountUpdateParams,
   ExchangeAccountRemoveParams,
+  ExchangeAccountSetExchangePriorityParams,
   ExchangeAccounts,
 } from './exchange-accounts';
 export {
@@ -23,13 +25,12 @@ export {
   PortfolioListPositionsParams,
   Portfolio,
 } from './portfolio';
-export { ExchangeSetExchangePriorityResponse, ExchangeSetExchangePriorityParams, Exchange } from './exchange';
 export { HealthRetreiveResponse, Health } from './health';
 export {
-  MarketSymbolListResponse,
-  MarketSymbolListParams,
-  MarketSymbols,
-} from './market-symbols/market-symbols';
+  MarketInstrumentListResponse,
+  MarketInstrumentListParams,
+  MarketInstruments,
+} from './market-instruments/market-instruments';
 export {
   Order,
   QuoteExecutionReport,

@@ -41,6 +41,16 @@ export class ExchangeAccounts extends APIResource {
   ): Core.APIPromise<ExchangeAccountRemoveResponse> {
     return this._client.post('/api/v2/exchange/removeExchangeAccount', { body, ...options });
   }
+
+  /**
+   * Set the priority of exchanges
+   */
+  setExchangePriority(
+    body: ExchangeAccountSetExchangePriorityParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<ExchangeAccountSetExchangePriorityResponse> {
+    return this._client.post('/api/v2/exchange/setExchangePriority', { body, ...options });
+  }
 }
 
 export interface ExchangeAccount {
@@ -86,6 +96,10 @@ export interface ExchangeAccountUpdateResponse {
 export type ExchangeAccountListResponse = Array<ExchangeAccount>;
 
 export interface ExchangeAccountRemoveResponse {
+  data?: string;
+}
+
+export interface ExchangeAccountSetExchangePriorityResponse {
   data?: string;
 }
 
@@ -145,13 +159,22 @@ export interface ExchangeAccountRemoveParams {
   exchangeAccountId: string;
 }
 
+export interface ExchangeAccountSetExchangePriorityParams {
+  /**
+   * Priority list of exchanges in descending order
+   */
+  priority: Array<string>;
+}
+
 export namespace ExchangeAccounts {
   export import ExchangeAccount = ExchangeAccountsAPI.ExchangeAccount;
   export import ExchangeAccountCreateResponse = ExchangeAccountsAPI.ExchangeAccountCreateResponse;
   export import ExchangeAccountUpdateResponse = ExchangeAccountsAPI.ExchangeAccountUpdateResponse;
   export import ExchangeAccountListResponse = ExchangeAccountsAPI.ExchangeAccountListResponse;
   export import ExchangeAccountRemoveResponse = ExchangeAccountsAPI.ExchangeAccountRemoveResponse;
+  export import ExchangeAccountSetExchangePriorityResponse = ExchangeAccountsAPI.ExchangeAccountSetExchangePriorityResponse;
   export import ExchangeAccountCreateParams = ExchangeAccountsAPI.ExchangeAccountCreateParams;
   export import ExchangeAccountUpdateParams = ExchangeAccountsAPI.ExchangeAccountUpdateParams;
   export import ExchangeAccountRemoveParams = ExchangeAccountsAPI.ExchangeAccountRemoveParams;
+  export import ExchangeAccountSetExchangePriorityParams = ExchangeAccountsAPI.ExchangeAccountSetExchangePriorityParams;
 }

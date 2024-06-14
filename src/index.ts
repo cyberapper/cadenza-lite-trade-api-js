@@ -144,8 +144,7 @@ export class CadenzaClient extends Core.APIClient {
   health: API.Health = new API.Health(this);
   clients: API.Clients = new API.Clients(this);
   exchangeAccounts: API.ExchangeAccounts = new API.ExchangeAccounts(this);
-  marketSymbols: API.MarketSymbols = new API.MarketSymbols(this);
-  exchange: API.Exchange = new API.Exchange(this);
+  marketInstruments: API.MarketInstruments = new API.MarketInstruments(this);
   trading: API.Trading = new API.Trading(this);
   portfolio: API.Portfolio = new API.Portfolio(this);
 
@@ -217,17 +216,15 @@ export namespace CadenzaClient {
   export import ExchangeAccountUpdateResponse = API.ExchangeAccountUpdateResponse;
   export import ExchangeAccountListResponse = API.ExchangeAccountListResponse;
   export import ExchangeAccountRemoveResponse = API.ExchangeAccountRemoveResponse;
+  export import ExchangeAccountSetExchangePriorityResponse = API.ExchangeAccountSetExchangePriorityResponse;
   export import ExchangeAccountCreateParams = API.ExchangeAccountCreateParams;
   export import ExchangeAccountUpdateParams = API.ExchangeAccountUpdateParams;
   export import ExchangeAccountRemoveParams = API.ExchangeAccountRemoveParams;
+  export import ExchangeAccountSetExchangePriorityParams = API.ExchangeAccountSetExchangePriorityParams;
 
-  export import MarketSymbols = API.MarketSymbols;
-  export import MarketSymbolListResponse = API.MarketSymbolListResponse;
-  export import MarketSymbolListParams = API.MarketSymbolListParams;
-
-  export import Exchange = API.Exchange;
-  export import ExchangeSetExchangePriorityResponse = API.ExchangeSetExchangePriorityResponse;
-  export import ExchangeSetExchangePriorityParams = API.ExchangeSetExchangePriorityParams;
+  export import MarketInstruments = API.MarketInstruments;
+  export import MarketInstrumentListResponse = API.MarketInstrumentListResponse;
+  export import MarketInstrumentListParams = API.MarketInstrumentListParams;
 
   export import Trading = API.Trading;
   export import Order = API.Order;

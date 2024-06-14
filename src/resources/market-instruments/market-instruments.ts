@@ -3,12 +3,12 @@
 import * as Core from '../../core';
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
-import * as MarketSymbolsAPI from './market-symbols';
+import * as MarketInstrumentsAPI from './market-instruments';
 import * as KlineAPI from './kline';
 import * as OrderbookAPI from './orderbook';
 import * as TickerAPI from './ticker';
 
-export class MarketSymbols extends APIResource {
+export class MarketInstruments extends APIResource {
   ticker: TickerAPI.TickerResource = new TickerAPI.TickerResource(this._client);
   orderbook: OrderbookAPI.OrderbookResource = new OrderbookAPI.OrderbookResource(this._client);
   kline: KlineAPI.Kline = new KlineAPI.Kline(this._client);
@@ -17,14 +17,14 @@ export class MarketSymbols extends APIResource {
    * List available exchange symbols
    */
   list(
-    query?: MarketSymbolListParams,
+    query?: MarketInstrumentListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<MarketSymbolListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<MarketSymbolListResponse>;
+  ): Core.APIPromise<MarketInstrumentListResponse>;
+  list(options?: Core.RequestOptions): Core.APIPromise<MarketInstrumentListResponse>;
   list(
-    query: MarketSymbolListParams | Core.RequestOptions = {},
+    query: MarketInstrumentListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<MarketSymbolListResponse> {
+  ): Core.APIPromise<MarketInstrumentListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
@@ -32,10 +32,11 @@ export class MarketSymbols extends APIResource {
   }
 }
 
-export type MarketSymbolListResponse = Array<MarketSymbolListResponse.MarketSymbolListResponseItem>;
+export type MarketInstrumentListResponse =
+  Array<MarketInstrumentListResponse.MarketInstrumentListResponseItem>;
 
-export namespace MarketSymbolListResponse {
-  export interface MarketSymbolListResponseItem {
+export namespace MarketInstrumentListResponse {
+  export interface MarketInstrumentListResponseItem {
     /**
      * Exchange type
      */
@@ -153,7 +154,7 @@ export namespace MarketSymbolListResponse {
   }
 }
 
-export interface MarketSymbolListParams {
+export interface MarketInstrumentListParams {
   /**
    * Whether to return detailed information
    */
@@ -170,9 +171,9 @@ export interface MarketSymbolListParams {
   symbol?: string;
 }
 
-export namespace MarketSymbols {
-  export import MarketSymbolListResponse = MarketSymbolsAPI.MarketSymbolListResponse;
-  export import MarketSymbolListParams = MarketSymbolsAPI.MarketSymbolListParams;
+export namespace MarketInstruments {
+  export import MarketInstrumentListResponse = MarketInstrumentsAPI.MarketInstrumentListResponse;
+  export import MarketInstrumentListParams = MarketInstrumentsAPI.MarketInstrumentListParams;
   export import TickerResource = TickerAPI.TickerResource;
   export import Ticker = TickerAPI.Ticker;
   export import TickerRetrieveResponse = TickerAPI.TickerRetrieveResponse;

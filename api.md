@@ -29,6 +29,7 @@ Types:
 - <code><a href="./src/resources/exchange-accounts.ts">ExchangeAccountUpdateResponse</a></code>
 - <code><a href="./src/resources/exchange-accounts.ts">ExchangeAccountListResponse</a></code>
 - <code><a href="./src/resources/exchange-accounts.ts">ExchangeAccountRemoveResponse</a></code>
+- <code><a href="./src/resources/exchange-accounts.ts">ExchangeAccountSetExchangePriorityResponse</a></code>
 
 Methods:
 
@@ -36,58 +37,49 @@ Methods:
 - <code title="post /api/v2/exchange/updateExchangeAccount">client.exchangeAccounts.<a href="./src/resources/exchange-accounts.ts">update</a>({ ...params }) -> ExchangeAccountUpdateResponse</code>
 - <code title="get /api/v2/exchange/listExchangeAccounts">client.exchangeAccounts.<a href="./src/resources/exchange-accounts.ts">list</a>() -> ExchangeAccountListResponse</code>
 - <code title="post /api/v2/exchange/removeExchangeAccount">client.exchangeAccounts.<a href="./src/resources/exchange-accounts.ts">remove</a>({ ...params }) -> ExchangeAccountRemoveResponse</code>
+- <code title="post /api/v2/exchange/setExchangePriority">client.exchangeAccounts.<a href="./src/resources/exchange-accounts.ts">setExchangePriority</a>({ ...params }) -> ExchangeAccountSetExchangePriorityResponse</code>
 
-# MarketSymbols
+# MarketInstruments
 
 Types:
 
-- <code><a href="./src/resources/market-symbols/market-symbols.ts">MarketSymbolListResponse</a></code>
+- <code><a href="./src/resources/market-instruments/market-instruments.ts">MarketInstrumentListResponse</a></code>
 
 Methods:
 
-- <code title="get /api/v2/market/listSymbolInfo">client.marketSymbols.<a href="./src/resources/market-symbols/market-symbols.ts">list</a>({ ...params }) -> MarketSymbolListResponse</code>
+- <code title="get /api/v2/market/listSymbolInfo">client.marketInstruments.<a href="./src/resources/market-instruments/market-instruments.ts">list</a>({ ...params }) -> MarketInstrumentListResponse</code>
 
 ## Ticker
 
 Types:
 
-- <code><a href="./src/resources/market-symbols/ticker.ts">Ticker</a></code>
-- <code><a href="./src/resources/market-symbols/ticker.ts">TickerRetrieveResponse</a></code>
+- <code><a href="./src/resources/market-instruments/ticker.ts">Ticker</a></code>
+- <code><a href="./src/resources/market-instruments/ticker.ts">TickerRetrieveResponse</a></code>
 
 Methods:
 
-- <code title="get /api/v2/market/ticker">client.marketSymbols.ticker.<a href="./src/resources/market-symbols/ticker.ts">retrieve</a>({ ...params }) -> TickerRetrieveResponse</code>
+- <code title="get /api/v2/market/ticker">client.marketInstruments.ticker.<a href="./src/resources/market-instruments/ticker.ts">retrieve</a>({ ...params }) -> TickerRetrieveResponse</code>
 
 ## Orderbook
 
 Types:
 
-- <code><a href="./src/resources/market-symbols/orderbook.ts">Orderbook</a></code>
-- <code><a href="./src/resources/market-symbols/orderbook.ts">OrderbookRetrieveResponse</a></code>
+- <code><a href="./src/resources/market-instruments/orderbook.ts">Orderbook</a></code>
+- <code><a href="./src/resources/market-instruments/orderbook.ts">OrderbookRetrieveResponse</a></code>
 
 Methods:
 
-- <code title="get /api/v2/market/orderbook">client.marketSymbols.orderbook.<a href="./src/resources/market-symbols/orderbook.ts">retrieve</a>({ ...params }) -> OrderbookRetrieveResponse</code>
+- <code title="get /api/v2/market/orderbook">client.marketInstruments.orderbook.<a href="./src/resources/market-instruments/orderbook.ts">retrieve</a>({ ...params }) -> OrderbookRetrieveResponse</code>
 
 ## Kline
 
 Types:
 
-- <code><a href="./src/resources/market-symbols/kline.ts">Ohlcv</a></code>
+- <code><a href="./src/resources/market-instruments/kline.ts">Ohlcv</a></code>
 
 Methods:
 
-- <code title="get /api/v2/market/kline">client.marketSymbols.kline.<a href="./src/resources/market-symbols/kline.ts">retrieve</a>({ ...params }) -> Ohlcv</code>
-
-# Exchange
-
-Types:
-
-- <code><a href="./src/resources/exchange.ts">ExchangeSetExchangePriorityResponse</a></code>
-
-Methods:
-
-- <code title="post /api/v2/exchange/setExchangePriority">client.exchange.<a href="./src/resources/exchange.ts">setExchangePriority</a>({ ...params }) -> ExchangeSetExchangePriorityResponse</code>
+- <code title="get /api/v2/market/kline">client.marketInstruments.kline.<a href="./src/resources/market-instruments/kline.ts">retrieve</a>({ ...params }) -> Ohlcv</code>
 
 # Trading
 

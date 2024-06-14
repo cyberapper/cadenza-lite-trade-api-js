@@ -8,10 +8,11 @@ const cadenzaClient = new CadenzaClient({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource orderbook', () => {
+describe('resource kline', () => {
   test('retrieve: only required params', async () => {
-    const responsePromise = cadenzaClient.marketSymbols.orderbook.retrieve({
+    const responsePromise = cadenzaClient.marketInstruments.kline.retrieve({
       exchangeType: 'BINANCE',
+      interval: '1s',
       symbol: 'BTC/USDT',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -24,10 +25,13 @@ describe('resource orderbook', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await cadenzaClient.marketSymbols.orderbook.retrieve({
+    const response = await cadenzaClient.marketInstruments.kline.retrieve({
       exchangeType: 'BINANCE',
+      interval: '1s',
       symbol: 'BTC/USDT',
+      endTime: 1632933600000,
       limit: 100,
+      startTime: 1622505600000,
     });
   });
 });

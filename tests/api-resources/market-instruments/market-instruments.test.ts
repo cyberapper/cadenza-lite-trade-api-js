@@ -8,9 +8,9 @@ const cadenzaClient = new CadenzaClient({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource marketSymbols', () => {
+describe('resource marketInstruments', () => {
   test('list', async () => {
-    const responsePromise = cadenzaClient.marketSymbols.list();
+    const responsePromise = cadenzaClient.marketInstruments.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,7 @@ describe('resource marketSymbols', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(cadenzaClient.marketSymbols.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(cadenzaClient.marketInstruments.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       CadenzaClient.NotFoundError,
     );
   });
@@ -30,7 +30,7 @@ describe('resource marketSymbols', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      cadenzaClient.marketSymbols.list(
+      cadenzaClient.marketInstruments.list(
         { detail: false, exchangeType: 'BINANCE', symbol: 'string' },
         { path: '/_stainless_unknown_path' },
       ),
