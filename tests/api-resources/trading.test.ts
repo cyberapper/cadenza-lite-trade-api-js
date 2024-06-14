@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import CadenzaClientSdk from 'cadenza-client-sdk';
+import CadenzaClient from 'cadenza-client-sdk';
 import { Response } from 'node-fetch';
 
-const cadenzaClientSdk = new CadenzaClientSdk({
+const cadenzaClient = new CadenzaClient({
   bearerToken: 'My Bearer Token',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource trading', () => {
   test('cancelOrder: only required params', async () => {
-    const responsePromise = cadenzaClientSdk.trading.cancelOrder({ orderId: 'string' });
+    const responsePromise = cadenzaClient.trading.cancelOrder({ orderId: 'string' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -21,11 +21,11 @@ describe('resource trading', () => {
   });
 
   test('cancelOrder: required and optional params', async () => {
-    const response = await cadenzaClientSdk.trading.cancelOrder({ orderId: 'string' });
+    const response = await cadenzaClient.trading.cancelOrder({ orderId: 'string' });
   });
 
   test('fetchQuotes: only required params', async () => {
-    const responsePromise = cadenzaClientSdk.trading.fetchQuotes({
+    const responsePromise = cadenzaClient.trading.fetchQuotes({
       baseCurrency: 'string',
       orderSide: 'string',
       quoteCurrency: 'string',
@@ -40,7 +40,7 @@ describe('resource trading', () => {
   });
 
   test('fetchQuotes: required and optional params', async () => {
-    const response = await cadenzaClientSdk.trading.fetchQuotes({
+    const response = await cadenzaClient.trading.fetchQuotes({
       baseCurrency: 'string',
       orderSide: 'string',
       quoteCurrency: 'string',
@@ -51,7 +51,7 @@ describe('resource trading', () => {
   });
 
   test('getQuoteExecutionReport: only required params', async () => {
-    const responsePromise = cadenzaClientSdk.trading.getQuoteExecutionReport({ quoteRequestId: 'string' });
+    const responsePromise = cadenzaClient.trading.getQuoteExecutionReport({ quoteRequestId: 'string' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -62,11 +62,11 @@ describe('resource trading', () => {
   });
 
   test('getQuoteExecutionReport: required and optional params', async () => {
-    const response = await cadenzaClientSdk.trading.getQuoteExecutionReport({ quoteRequestId: 'string' });
+    const response = await cadenzaClient.trading.getQuoteExecutionReport({ quoteRequestId: 'string' });
   });
 
   test('listOrders', async () => {
-    const responsePromise = cadenzaClientSdk.trading.listOrders();
+    const responsePromise = cadenzaClient.trading.listOrders();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -78,15 +78,15 @@ describe('resource trading', () => {
 
   test('listOrders: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(cadenzaClientSdk.trading.listOrders({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      CadenzaClientSdk.NotFoundError,
+    await expect(cadenzaClient.trading.listOrders({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      CadenzaClient.NotFoundError,
     );
   });
 
   test('listOrders: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      cadenzaClientSdk.trading.listOrders(
+      cadenzaClient.trading.listOrders(
         {
           endTime: 1632933600000,
           exchangeAccountId: 'string',
@@ -100,11 +100,11 @@ describe('resource trading', () => {
         },
         { path: '/_stainless_unknown_path' },
       ),
-    ).rejects.toThrow(CadenzaClientSdk.NotFoundError);
+    ).rejects.toThrow(CadenzaClient.NotFoundError);
   });
 
   test('placeOrder', async () => {
-    const responsePromise = cadenzaClientSdk.trading.placeOrder();
+    const responsePromise = cadenzaClient.trading.placeOrder();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -116,15 +116,15 @@ describe('resource trading', () => {
 
   test('placeOrder: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(cadenzaClientSdk.trading.placeOrder({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      CadenzaClientSdk.NotFoundError,
+    await expect(cadenzaClient.trading.placeOrder({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      CadenzaClient.NotFoundError,
     );
   });
 
   test('placeOrder: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      cadenzaClientSdk.trading.placeOrder(
+      cadenzaClient.trading.placeOrder(
         {
           exchangeAccountId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
           leverage: 0,
@@ -146,6 +146,6 @@ describe('resource trading', () => {
         },
         { path: '/_stainless_unknown_path' },
       ),
-    ).rejects.toThrow(CadenzaClientSdk.NotFoundError);
+    ).rejects.toThrow(CadenzaClient.NotFoundError);
   });
 });

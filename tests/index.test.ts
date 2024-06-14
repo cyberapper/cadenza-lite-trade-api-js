@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import CadenzaClientSdk from 'cadenza-client-sdk';
+import CadenzaClient from 'cadenza-client-sdk';
 import { APIUserAbortError } from 'cadenza-client-sdk';
 import { Headers } from 'cadenza-client-sdk/core';
 import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
@@ -20,7 +20,7 @@ describe('instantiate client', () => {
   });
 
   describe('defaultHeaders', () => {
-    const client = new CadenzaClientSdk({
+    const client = new CadenzaClient({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       bearerToken: 'My Bearer Token',
@@ -52,7 +52,7 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new CadenzaClientSdk({
+      const client = new CadenzaClient({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         bearerToken: 'My Bearer Token',
@@ -61,7 +61,7 @@ describe('instantiate client', () => {
     });
 
     test('multiple default query params', () => {
-      const client = new CadenzaClientSdk({
+      const client = new CadenzaClient({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         bearerToken: 'My Bearer Token',
@@ -70,7 +70,7 @@ describe('instantiate client', () => {
     });
 
     test('overriding with `undefined`', () => {
-      const client = new CadenzaClientSdk({
+      const client = new CadenzaClient({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         bearerToken: 'My Bearer Token',
@@ -80,7 +80,7 @@ describe('instantiate client', () => {
   });
 
   test('custom fetch', async () => {
-    const client = new CadenzaClientSdk({
+    const client = new CadenzaClient({
       baseURL: 'http://localhost:5000/',
       bearerToken: 'My Bearer Token',
       fetch: (url) => {
@@ -97,7 +97,7 @@ describe('instantiate client', () => {
   });
 
   test('custom signal', async () => {
-    const client = new CadenzaClientSdk({
+    const client = new CadenzaClient({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
       bearerToken: 'My Bearer Token',
       fetch: (...args) => {
@@ -124,7 +124,7 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new CadenzaClientSdk({
+      const client = new CadenzaClient({
         baseURL: 'http://localhost:5000/custom/path/',
         bearerToken: 'My Bearer Token',
       });
@@ -132,7 +132,7 @@ describe('instantiate client', () => {
     });
 
     test('no trailing slash', () => {
-      const client = new CadenzaClientSdk({
+      const client = new CadenzaClient({
         baseURL: 'http://localhost:5000/custom/path',
         bearerToken: 'My Bearer Token',
       });
@@ -140,42 +140,42 @@ describe('instantiate client', () => {
     });
 
     afterEach(() => {
-      process.env['CADENZA_CLIENT_SDK_BASE_URL'] = undefined;
+      process.env['CADENZA_CLIENT_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
-      const client = new CadenzaClientSdk({ baseURL: 'https://example.com', bearerToken: 'My Bearer Token' });
+      const client = new CadenzaClient({ baseURL: 'https://example.com', bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
-      process.env['CADENZA_CLIENT_SDK_BASE_URL'] = 'https://example.com/from_env';
-      const client = new CadenzaClientSdk({ bearerToken: 'My Bearer Token' });
+      process.env['CADENZA_CLIENT_BASE_URL'] = 'https://example.com/from_env';
+      const client = new CadenzaClient({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['CADENZA_CLIENT_SDK_BASE_URL'] = ''; // empty
-      const client = new CadenzaClientSdk({ bearerToken: 'My Bearer Token' });
+      process.env['CADENZA_CLIENT_BASE_URL'] = ''; // empty
+      const client = new CadenzaClient({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://cadenza-lite.algo724.com');
     });
 
     test('blank env variable', () => {
-      process.env['CADENZA_CLIENT_SDK_BASE_URL'] = '  '; // blank
-      const client = new CadenzaClientSdk({ bearerToken: 'My Bearer Token' });
+      process.env['CADENZA_CLIENT_BASE_URL'] = '  '; // blank
+      const client = new CadenzaClient({ bearerToken: 'My Bearer Token' });
       expect(client.baseURL).toEqual('https://cadenza-lite.algo724.com');
     });
 
     test('env variable with environment', () => {
-      process.env['CADENZA_CLIENT_SDK_BASE_URL'] = 'https://example.com/from_env';
+      process.env['CADENZA_CLIENT_BASE_URL'] = 'https://example.com/from_env';
 
       expect(
-        () => new CadenzaClientSdk({ bearerToken: 'My Bearer Token', environment: 'production' }),
+        () => new CadenzaClient({ bearerToken: 'My Bearer Token', environment: 'production' }),
       ).toThrowErrorMatchingInlineSnapshot(
-        `"Ambiguous URL; The \`baseURL\` option (or CADENZA_CLIENT_SDK_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
+        `"Ambiguous URL; The \`baseURL\` option (or CADENZA_CLIENT_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
       );
 
-      const client = new CadenzaClientSdk({
+      const client = new CadenzaClient({
         bearerToken: 'My Bearer Token',
         baseURL: null,
         environment: 'production',
@@ -185,31 +185,31 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new CadenzaClientSdk({ maxRetries: 4, bearerToken: 'My Bearer Token' });
+    const client = new CadenzaClient({ maxRetries: 4, bearerToken: 'My Bearer Token' });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new CadenzaClientSdk({ bearerToken: 'My Bearer Token' });
+    const client2 = new CadenzaClient({ bearerToken: 'My Bearer Token' });
     expect(client2.maxRetries).toEqual(2);
   });
 
   test('with environment variable arguments', () => {
     // set options via env var
     process.env['CADENZA_CLIENT_SDK_BEARER_TOKEN'] = 'My Bearer Token';
-    const client = new CadenzaClientSdk();
+    const client = new CadenzaClient();
     expect(client.bearerToken).toBe('My Bearer Token');
   });
 
   test('with overriden environment variable arguments', () => {
     // set options via env var
     process.env['CADENZA_CLIENT_SDK_BEARER_TOKEN'] = 'another My Bearer Token';
-    const client = new CadenzaClientSdk({ bearerToken: 'My Bearer Token' });
+    const client = new CadenzaClient({ bearerToken: 'My Bearer Token' });
     expect(client.bearerToken).toBe('My Bearer Token');
   });
 });
 
 describe('request building', () => {
-  const client = new CadenzaClientSdk({ bearerToken: 'My Bearer Token' });
+  const client = new CadenzaClient({ bearerToken: 'My Bearer Token' });
 
   describe('Content-Length', () => {
     test('handles multi-byte characters', () => {
@@ -251,7 +251,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new CadenzaClientSdk({ bearerToken: 'My Bearer Token', timeout: 10, fetch: testFetch });
+    const client = new CadenzaClient({ bearerToken: 'My Bearer Token', timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -278,7 +278,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new CadenzaClientSdk({ bearerToken: 'My Bearer Token', fetch: testFetch });
+    const client = new CadenzaClient({ bearerToken: 'My Bearer Token', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -305,7 +305,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new CadenzaClientSdk({ bearerToken: 'My Bearer Token', fetch: testFetch });
+    const client = new CadenzaClient({ bearerToken: 'My Bearer Token', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);

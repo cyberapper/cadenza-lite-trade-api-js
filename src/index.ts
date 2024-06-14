@@ -32,7 +32,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['CADENZA_CLIENT_SDK_BASE_URL'].
+   * Defaults to process.env['CADENZA_CLIENT_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -86,18 +86,18 @@ export interface ClientOptions {
   defaultQuery?: Core.DefaultQuery;
 }
 
-/** API Client for interfacing with the Cadenza Client Sdk API. */
-export class CadenzaClientSdk extends Core.APIClient {
+/** API Client for interfacing with the Cadenza Client API. */
+export class CadenzaClient extends Core.APIClient {
   bearerToken: string;
 
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Cadenza Client Sdk API.
+   * API Client for interfacing with the Cadenza Client API.
    *
    * @param {string | undefined} [opts.bearerToken=process.env['CADENZA_CLIENT_SDK_BEARER_TOKEN'] ?? undefined]
    * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['CADENZA_CLIENT_SDK_BASE_URL'] ?? https://cadenza-lite.algo724.com] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['CADENZA_CLIENT_BASE_URL'] ?? https://cadenza-lite.algo724.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -106,13 +106,13 @@ export class CadenzaClientSdk extends Core.APIClient {
    * @param {Core.DefaultQuery} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = Core.readEnv('CADENZA_CLIENT_SDK_BASE_URL'),
+    baseURL = Core.readEnv('CADENZA_CLIENT_BASE_URL'),
     bearerToken = Core.readEnv('CADENZA_CLIENT_SDK_BEARER_TOKEN'),
     ...opts
   }: ClientOptions = {}) {
     if (bearerToken === undefined) {
-      throw new Errors.CadenzaClientSdkError(
-        "The CADENZA_CLIENT_SDK_BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the CadenzaClientSdk client with an bearerToken option, like new CadenzaClientSdk({ bearerToken: 'My Bearer Token' }).",
+      throw new Errors.CadenzaClientError(
+        "The CADENZA_CLIENT_SDK_BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the CadenzaClient client with an bearerToken option, like new CadenzaClient({ bearerToken: 'My Bearer Token' }).",
       );
     }
 
@@ -124,8 +124,8 @@ export class CadenzaClientSdk extends Core.APIClient {
     };
 
     if (baseURL && opts.environment) {
-      throw new Errors.CadenzaClientSdkError(
-        'Ambiguous URL; The `baseURL` option (or CADENZA_CLIENT_SDK_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
+      throw new Errors.CadenzaClientError(
+        'Ambiguous URL; The `baseURL` option (or CADENZA_CLIENT_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
       );
     }
 
@@ -164,9 +164,9 @@ export class CadenzaClientSdk extends Core.APIClient {
     return { Authorization: `Bearer ${this.bearerToken}` };
   }
 
-  static CadenzaClientSdk = this;
+  static CadenzaClient = this;
 
-  static CadenzaClientSdkError = Errors.CadenzaClientSdkError;
+  static CadenzaClientError = Errors.CadenzaClientError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -185,7 +185,7 @@ export class CadenzaClientSdk extends Core.APIClient {
 }
 
 export const {
-  CadenzaClientSdkError,
+  CadenzaClientError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,
@@ -203,7 +203,7 @@ export const {
 export import toFile = Uploads.toFile;
 export import fileFromPath = Uploads.fileFromPath;
 
-export namespace CadenzaClientSdk {
+export namespace CadenzaClient {
   export import RequestOptions = Core.RequestOptions;
 
   export import Health = API.Health;
@@ -253,4 +253,4 @@ export namespace CadenzaClientSdk {
   export import PortfolioListPositionsParams = API.PortfolioListPositionsParams;
 }
 
-export default CadenzaClientSdk;
+export default CadenzaClient;

@@ -2,9 +2,9 @@
 
 import { castToError, Headers } from './core';
 
-export class CadenzaClientSdkError extends Error {}
+export class CadenzaClientError extends Error {}
 
-export class APIError extends CadenzaClientSdkError {
+export class APIError extends CadenzaClientError {
   readonly status: number | undefined;
   readonly headers: Headers | undefined;
   readonly error: Object | undefined;
