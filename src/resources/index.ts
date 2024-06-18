@@ -26,11 +26,7 @@ export {
   Portfolio,
 } from './portfolio';
 export { HealthRetreiveResponse, Health } from './health';
-export {
-  MarketInstrumentListResponse,
-  MarketInstrumentListParams,
-  MarketInstruments,
-} from './market-instruments/market-instruments';
+export { MarketListInstrumentsResponse, MarketListInstrumentsParams, Market } from './market/market';
 export {
   Order,
   QuoteExecutionReport,

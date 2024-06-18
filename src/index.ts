@@ -7,9 +7,9 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 
 const environments = {
-  production: 'https://cadenza-lite.algo724.com',
-  environment_1: 'https://cadenza-lite.uat.algo724.com',
-  environment_2: 'https://cadenza-lite-dev-kxqssmzmsa-de.a.run.app',
+  prod: 'https://cadenza-lite.algo724.com',
+  uat: 'https://cadenza-lite.uat.algo724.com',
+  dev: 'https://cadenza-lite-dev-kxqssmzmsa-de.a.run.app',
 };
 type Environment = keyof typeof environments;
 
@@ -23,9 +23,9 @@ export interface ClientOptions {
    * Specifies the environment to use for the API.
    *
    * Each environment maps to a different base URL:
-   * - `production` corresponds to `https://cadenza-lite.algo724.com`
-   * - `environment_1` corresponds to `https://cadenza-lite.uat.algo724.com`
-   * - `environment_2` corresponds to `https://cadenza-lite-dev-kxqssmzmsa-de.a.run.app`
+   * - `prod` corresponds to `https://cadenza-lite.algo724.com`
+   * - `uat` corresponds to `https://cadenza-lite.uat.algo724.com`
+   * - `dev` corresponds to `https://cadenza-lite-dev-kxqssmzmsa-de.a.run.app`
    */
   environment?: Environment;
 
@@ -96,7 +96,7 @@ export class CadenzaClient extends Core.APIClient {
    * API Client for interfacing with the Cadenza Client API.
    *
    * @param {string | undefined} [opts.bearerToken=process.env['CADENZA_CLIENT_SDK_BEARER_TOKEN'] ?? undefined]
-   * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
+   * @param {Environment} [opts.environment=prod] - Specifies the environment URL to use for the API.
    * @param {string} [opts.baseURL=process.env['CADENZA_CLIENT_BASE_URL'] ?? https://cadenza-lite.algo724.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -120,7 +120,7 @@ export class CadenzaClient extends Core.APIClient {
       bearerToken,
       ...opts,
       baseURL,
-      environment: opts.environment ?? 'production',
+      environment: opts.environment ?? 'prod',
     };
 
     if (baseURL && opts.environment) {
@@ -130,7 +130,7 @@ export class CadenzaClient extends Core.APIClient {
     }
 
     super({
-      baseURL: options.baseURL || environments[options.environment || 'production'],
+      baseURL: options.baseURL || environments[options.environment || 'prod'],
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -144,7 +144,7 @@ export class CadenzaClient extends Core.APIClient {
   health: API.Health = new API.Health(this);
   clients: API.Clients = new API.Clients(this);
   exchangeAccounts: API.ExchangeAccounts = new API.ExchangeAccounts(this);
-  marketInstruments: API.MarketInstruments = new API.MarketInstruments(this);
+  market: API.Market = new API.Market(this);
   trading: API.Trading = new API.Trading(this);
   portfolio: API.Portfolio = new API.Portfolio(this);
 
@@ -222,9 +222,9 @@ export namespace CadenzaClient {
   export import ExchangeAccountRemoveParams = API.ExchangeAccountRemoveParams;
   export import ExchangeAccountSetExchangePriorityParams = API.ExchangeAccountSetExchangePriorityParams;
 
-  export import MarketInstruments = API.MarketInstruments;
-  export import MarketInstrumentListResponse = API.MarketInstrumentListResponse;
-  export import MarketInstrumentListParams = API.MarketInstrumentListParams;
+  export import Market = API.Market;
+  export import MarketListInstrumentsResponse = API.MarketListInstrumentsResponse;
+  export import MarketListInstrumentsParams = API.MarketListInstrumentsParams;
 
   export import Trading = API.Trading;
   export import Order = API.Order;

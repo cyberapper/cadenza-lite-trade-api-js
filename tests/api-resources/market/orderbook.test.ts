@@ -10,7 +10,7 @@ const cadenzaClient = new CadenzaClient({
 
 describe('resource orderbook', () => {
   test('retrieve: only required params', async () => {
-    const responsePromise = cadenzaClient.marketInstruments.orderbook.retrieve({
+    const responsePromise = cadenzaClient.market.orderbook.retrieve({
       exchangeType: 'BINANCE',
       symbol: 'BTC/USDT',
     });
@@ -24,7 +24,7 @@ describe('resource orderbook', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await cadenzaClient.marketInstruments.orderbook.retrieve({
+    const response = await cadenzaClient.market.orderbook.retrieve({
       exchangeType: 'BINANCE',
       symbol: 'BTC/USDT',
       limit: 100,

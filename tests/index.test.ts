@@ -170,7 +170,7 @@ describe('instantiate client', () => {
       process.env['CADENZA_CLIENT_BASE_URL'] = 'https://example.com/from_env';
 
       expect(
-        () => new CadenzaClient({ bearerToken: 'My Bearer Token', environment: 'production' }),
+        () => new CadenzaClient({ bearerToken: 'My Bearer Token', environment: 'prod' }),
       ).toThrowErrorMatchingInlineSnapshot(
         `"Ambiguous URL; The \`baseURL\` option (or CADENZA_CLIENT_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
       );
@@ -178,7 +178,7 @@ describe('instantiate client', () => {
       const client = new CadenzaClient({
         bearerToken: 'My Bearer Token',
         baseURL: null,
-        environment: 'production',
+        environment: 'prod',
       });
       expect(client.baseURL).toEqual('https://cadenza-lite.algo724.com');
     });

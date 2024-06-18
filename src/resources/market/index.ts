@@ -1,10 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export {
-  MarketInstrumentListResponse,
-  MarketInstrumentListParams,
-  MarketInstruments,
-} from './market-instruments';
+export { MarketListInstrumentsResponse, MarketListInstrumentsParams, Market } from './market';
 export { Ohlcv, KlineRetrieveParams, Kline } from './kline';
 export {
   Orderbook,

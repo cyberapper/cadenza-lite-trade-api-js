@@ -39,47 +39,47 @@ Methods:
 - <code title="post /api/v2/exchange/removeExchangeAccount">client.exchangeAccounts.<a href="./src/resources/exchange-accounts.ts">remove</a>({ ...params }) -> ExchangeAccountRemoveResponse</code>
 - <code title="post /api/v2/exchange/setExchangePriority">client.exchangeAccounts.<a href="./src/resources/exchange-accounts.ts">setExchangePriority</a>({ ...params }) -> ExchangeAccountSetExchangePriorityResponse</code>
 
-# MarketInstruments
+# Market
 
 Types:
 
-- <code><a href="./src/resources/market-instruments/market-instruments.ts">MarketInstrumentListResponse</a></code>
+- <code><a href="./src/resources/market/market.ts">MarketListInstrumentsResponse</a></code>
 
 Methods:
 
-- <code title="get /api/v2/market/listSymbolInfo">client.marketInstruments.<a href="./src/resources/market-instruments/market-instruments.ts">list</a>({ ...params }) -> MarketInstrumentListResponse</code>
+- <code title="get /api/v2/market/listSymbolInfo">client.market.<a href="./src/resources/market/market.ts">listInstruments</a>({ ...params }) -> MarketListInstrumentsResponse</code>
 
 ## Ticker
 
 Types:
 
-- <code><a href="./src/resources/market-instruments/ticker.ts">Ticker</a></code>
-- <code><a href="./src/resources/market-instruments/ticker.ts">TickerRetrieveResponse</a></code>
+- <code><a href="./src/resources/market/ticker.ts">Ticker</a></code>
+- <code><a href="./src/resources/market/ticker.ts">TickerRetrieveResponse</a></code>
 
 Methods:
 
-- <code title="get /api/v2/market/ticker">client.marketInstruments.ticker.<a href="./src/resources/market-instruments/ticker.ts">retrieve</a>({ ...params }) -> TickerRetrieveResponse</code>
+- <code title="get /api/v2/market/ticker">client.market.ticker.<a href="./src/resources/market/ticker.ts">retrieve</a>({ ...params }) -> TickerRetrieveResponse</code>
 
 ## Orderbook
 
 Types:
 
-- <code><a href="./src/resources/market-instruments/orderbook.ts">Orderbook</a></code>
-- <code><a href="./src/resources/market-instruments/orderbook.ts">OrderbookRetrieveResponse</a></code>
+- <code><a href="./src/resources/market/orderbook.ts">Orderbook</a></code>
+- <code><a href="./src/resources/market/orderbook.ts">OrderbookRetrieveResponse</a></code>
 
 Methods:
 
-- <code title="get /api/v2/market/orderbook">client.marketInstruments.orderbook.<a href="./src/resources/market-instruments/orderbook.ts">retrieve</a>({ ...params }) -> OrderbookRetrieveResponse</code>
+- <code title="get /api/v2/market/orderbook">client.market.orderbook.<a href="./src/resources/market/orderbook.ts">retrieve</a>({ ...params }) -> OrderbookRetrieveResponse</code>
 
 ## Kline
 
 Types:
 
-- <code><a href="./src/resources/market-instruments/kline.ts">Ohlcv</a></code>
+- <code><a href="./src/resources/market/kline.ts">Ohlcv</a></code>
 
 Methods:
 
-- <code title="get /api/v2/market/kline">client.marketInstruments.kline.<a href="./src/resources/market-instruments/kline.ts">retrieve</a>({ ...params }) -> Ohlcv</code>
+- <code title="get /api/v2/market/kline">client.market.kline.<a href="./src/resources/market/kline.ts">retrieve</a>({ ...params }) -> Ohlcv</code>
 
 # Trading
 

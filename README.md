@@ -27,7 +27,7 @@ import CadenzaClient from 'cadenza-client-sdk';
 
 const cadenzaClient = new CadenzaClient({
   bearerToken: process.env['CADENZA_CLIENT_SDK_BEARER_TOKEN'], // This is the default and can be omitted
-  environment: 'environment_1', // or 'production' | 'environment_2'; defaults to 'production'
+  environment: 'uat', // or 'prod' | 'dev'; defaults to 'prod'
 });
 
 async function main() {
@@ -49,7 +49,7 @@ import CadenzaClient from 'cadenza-client-sdk';
 
 const cadenzaClient = new CadenzaClient({
   bearerToken: process.env['CADENZA_CLIENT_SDK_BEARER_TOKEN'], // This is the default and can be omitted
-  environment: 'environment_1', // or 'production' | 'environment_2'; defaults to 'production'
+  environment: 'uat', // or 'prod' | 'dev'; defaults to 'prod'
 });
 
 async function main() {
