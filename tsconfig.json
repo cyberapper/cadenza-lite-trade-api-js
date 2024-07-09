@@ -1,22 +1,38 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "include": ["src", "tests", "examples"],
+  "exclude": ["src/_shims/**/*-deno.ts"],
   "compilerOptions": {
-    "module": "es2022",
+    "target": "es2020",
+    "lib": ["es2020"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "cadenza-sdk/_shims/auto/*": ["src/_shims/auto/*-node"],
+      "cadenza-sdk/*": ["src/*"],
+      "cadenza-sdk": ["src/index.ts"],
+    },
+    "noEmit": true,
+
+    "resolveJsonModule": true,
+
     "forceConsistentCasingInFileNames": true,
+
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "alwaysStrict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
+
+    "skipLibCheck": true
+  }
 }

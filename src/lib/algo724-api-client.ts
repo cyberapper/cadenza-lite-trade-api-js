@@ -7,7 +7,7 @@ export class Algo724Client {
   private accessToken: string | null = null;
   public client = createClient<paths>({
     keepalive: true,
-    baseUrl: 'https://cadenza-lite.uat.algo724.com'
+    baseUrl: 'https://cadenza-lite.uat.algo724.com',
   });
 
   constructor(token: string) {
@@ -29,9 +29,9 @@ export class Algo724Client {
             {
               method: req.method,
               url: req.url,
-              body
+              body,
             },
-            `HTTP ${req.method} ${req.url}`
+            `HTTP ${req.method} ${req.url}`,
           );
           return req;
         }
@@ -40,9 +40,9 @@ export class Algo724Client {
           {
             method: req.method,
             url: req.url,
-            params: req.params
+            params: req.params,
           },
-          `HTTP ${req.method} ${req.url}`
+          `HTTP ${req.method} ${req.url}`,
         );
         return req;
       },
@@ -54,9 +54,9 @@ export class Algo724Client {
           const body = await res.clone().json();
           logger.warn(
             {
-              response: body
+              response: body,
             },
-            `HTTP ${res.status} ${res.url}`
+            `HTTP ${res.status} ${res.url}`,
           );
         } else {
           logger.info(`HTTP ${res.status} ${res.url}`);
@@ -64,7 +64,7 @@ export class Algo724Client {
         // const resClone = res.clone();
         // console.debug(await resClone.json());
         return res;
-      }
+      },
     };
     const authMiddleware: Middleware = {
       async onRequest(req, options) {
@@ -76,7 +76,7 @@ export class Algo724Client {
       async onResponse(res, options) {
         // change status of response
         return res;
-      }
+      },
     };
 
     this.client.use(authMiddleware, logMiddleware);
