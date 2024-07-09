@@ -258,7 +258,15 @@ export interface paths {
                * @description Security type
                * @enum {string}
                */
-              securityType?: 'CASH' | 'STOCK' | 'CRYPTO' | 'DERIVATIVE' | 'OPTION' | 'FUTURE' | 'FOREX' | 'COMMODITY';
+              securityType?:
+                | 'CASH'
+                | 'STOCK'
+                | 'CRYPTO'
+                | 'DERIVATIVE'
+                | 'OPTION'
+                | 'FUTURE'
+                | 'FOREX'
+                | 'COMMODITY';
               /**
                * @description Symbol name
                * @example BTC/USDT
@@ -952,7 +960,15 @@ export interface components {
      * @description Order type
      * @enum {string}
      */
-    orderType: 'MARKET' | 'LIMIT' | 'STOP_LOSS' | 'STOP_LOSS_LIMIT' | 'TAKE_PROFIT' | 'TAKE_PROFIT_LIMIT' | 'LIMIT_MAKER' | 'QUOTED';
+    orderType:
+      | 'MARKET'
+      | 'LIMIT'
+      | 'STOP_LOSS'
+      | 'STOP_LOSS_LIMIT'
+      | 'TAKE_PROFIT'
+      | 'TAKE_PROFIT_LIMIT'
+      | 'LIMIT_MAKER'
+      | 'QUOTED';
     /**
      * @description Order status
      * @enum {string}
@@ -972,7 +988,21 @@ export interface components {
      * @description Time in force
      * @enum {string}
      */
-    timeInForce: 'DAY' | 'GTC' | 'GTX' | 'GTD' | 'OPG' | 'CLS' | 'IOC' | 'FOK' | 'GFA' | 'GFS' | 'GTM' | 'MOO' | 'MOC' | 'EXT';
+    timeInForce:
+      | 'DAY'
+      | 'GTC'
+      | 'GTX'
+      | 'GTD'
+      | 'OPG'
+      | 'CLS'
+      | 'IOC'
+      | 'FOK'
+      | 'GFA'
+      | 'GFS'
+      | 'GTM'
+      | 'MOO'
+      | 'MOC'
+      | 'EXT';
     order: {
       /** @description The total cost of this order. */
       cost: number;
