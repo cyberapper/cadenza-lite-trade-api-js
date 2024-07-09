@@ -1,6 +1,6 @@
 {
   "name": "cadenza-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The official TypeScript library for the Cadenza Client API",
   "author": "Cadenza Client <dev-feedback@cadenza-client-sdk.com>",
   "types": "dist/index.d.ts",
